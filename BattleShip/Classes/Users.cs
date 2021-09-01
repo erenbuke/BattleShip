@@ -10,8 +10,5 @@ namespace BattleShip.Classes
     {
         public string username = "Rookie";
         public int shipCount;
-        public int win;
-        public int lose;
-        public float winRate;
     }
 }
