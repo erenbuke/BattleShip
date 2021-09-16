@@ -8,7 +8,7 @@ namespace BattleShip.Classes
 {
     class Users
     {
-        public string username = "Rookie";
+        public string username;
         public int shipCount;
     }
 }

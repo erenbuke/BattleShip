@@ -29,9 +29,11 @@ namespace BattleShip.Forms
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent(Stream stm)
+        private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ready = new System.Windows.Forms.Button();
+            this.chat = new System.Windows.Forms.RichTextBox();
             this.send = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -39,12 +41,12 @@ namespace BattleShip.Forms
             this.chattext = new System.Windows.Forms.TextBox();
             this.you = new System.Windows.Forms.Panel();
             this.enemy = new System.Windows.Forms.Panel();
-            this.chat = new System.Windows.Forms.RichTextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.ready);
             this.panel1.Controls.Add(this.chat);
             this.panel1.Controls.Add(this.send);
             this.panel1.Controls.Add(this.label3);
@@ -59,15 +61,32 @@ namespace BattleShip.Forms
             this.panel1.Size = new System.Drawing.Size(750, 530);
             this.panel1.TabIndex = 0;
             // 
+            // ready
+            // 
+            this.ready.Location = new System.Drawing.Point(112, 410);
+            this.ready.Name = "ready";
+            this.ready.Size = new System.Drawing.Size(130, 50);
+            this.ready.TabIndex = 10;
+            this.ready.Text = "HAZIR";
+            this.ready.UseVisualStyleBackColor = true;
+            // 
+            // chat
+            // 
+            this.chat.Location = new System.Drawing.Point(408, 374);
+            this.chat.Name = "chat";
+            this.chat.ReadOnly = true;
+            this.chat.Size = new System.Drawing.Size(330, 118);
+            this.chat.TabIndex = 9;
+            this.chat.Text = "";
+            // 
             // send
             // 
             this.send.Location = new System.Drawing.Point(663, 496);
             this.send.Name = "send";
             this.send.Size = new System.Drawing.Size(75, 23);
             this.send.TabIndex = 8;
-            this.send.Text = "Send";
+            this.send.Text = "Gönder";
             this.send.UseVisualStyleBackColor = true;
-            this.send.Click += new System.EventHandler((sender, e) => send_Click(sender, e, stm));
             // 
             // label3
             // 
@@ -117,15 +136,6 @@ namespace BattleShip.Forms
             this.enemy.Size = new System.Drawing.Size(330, 330);
             this.enemy.TabIndex = 1;
             // 
-            // chat
-            // 
-            this.chat.Location = new System.Drawing.Point(408, 374);
-            this.chat.Name = "chat";
-            this.chat.ReadOnly = true;
-            this.chat.Size = new System.Drawing.Size(330, 118);
-            this.chat.TabIndex = 9;
-            this.chat.Text = "";
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -151,5 +161,6 @@ namespace BattleShip.Forms
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox chat;
+        private System.Windows.Forms.Button ready;
     }
 }

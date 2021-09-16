@@ -18,7 +18,7 @@ namespace BattleShip.Forms
     {
         public Main(TcpClient client,Stream stm)
         {
-            InitializeComponent(stm);
+            InitializeComponent();
 
             char a = 'A';
             Panel[,] panel = new Panel[11,11];
@@ -30,6 +30,9 @@ namespace BattleShip.Forms
                 {
                     panel[i, j] = new Panel();
                     panel2[i, j] = new Panel();
+
+                    panel[i, j].Name = i + "." + j;
+                    panel2[i, j].Name = i + "." + j;
 
                     you.Controls.Add(panel[i,j]);
                     enemy.Controls.Add(panel2[i,j]);
@@ -99,6 +102,11 @@ namespace BattleShip.Forms
             Ships.createShip(ship4, 1, 4, panel);
             Ships.createShip(ship5, 1, 5, panel);
 
+            panel[ship2.x, ship2.y].DoubleClick += new EventHandler((sender, e) => panel_Click(sender, e, ship2, panel));
+            panel[ship31.x, ship31.y].DoubleClick += new EventHandler((sender, e) => panel_Click(sender, e, ship31, panel));
+            panel[ship32.x, ship32.y].DoubleClick += new EventHandler((sender, e) => panel_Click(sender, e, ship32, panel));
+            panel[ship4.x, ship4.y].DoubleClick += new EventHandler((sender, e) => panel_Click(sender, e, ship4, panel));
+            panel[ship5.x, ship5.y].DoubleClick += new EventHandler((sender, e) => panel_Click(sender, e, ship5, panel));
             /*
             panelship2.Click += new EventHandler((sender, e) => panel_Click(sender, e, panelship2));
             panelship31.Click += new EventHandler((sender, e) => panel_Click(sender, e, panelship31));
@@ -113,12 +121,23 @@ namespace BattleShip.Forms
             player.shipCount = 5;
             enemyplayer.shipCount = 5;
 
+            ready.Click += new EventHandler((sender, e) => ready_Click(sender, e, panel));
+            send.Click += new EventHandler((sender, e) => send_Click(sender, e, stm));
+
+
             Task.Factory.StartNew(() =>
             {
                 while (true)
                 {
                     string str = connection.getString(stm);
-                    chat.Text += str + "\n";
+                    if (str.EndsWith("-t"))
+                    {
+                        chat.Text += str.Substring(0, (str.Length - 2)) + "\n";
+                    }
+                    else
+                    {
+                        
+                    }
                 }
             });
 
@@ -131,15 +150,60 @@ namespace BattleShip.Forms
             str += "-t";
 
             connection.sendString(str, stm);
+            chattext.Text = null;
         }
 
-        private void panel_Click(object sender, EventArgs e, Panel ship)
+        private void panel_Click(object sender, EventArgs e, Ships ship, Panel[,] panels)
         {
-            int width = ship.Width;
-            int height = ship.Height;
+            int i = 0;
+            if (ship.turned)
+            {
+                while(i < ship.length && panels[ship.x + i,ship.y].BackColor != Color.DarkGray)
+                {
+                    i++;
+                }
+                if(i == ship.length)
+                {
+                    Ships.eraseShip(ship, panels);
+                    ship.turned = false;
+                    Ships.createShip(ship, ship.x, ship.y, panels);
+                }
+                else
+                {
+                    MessageBox.Show("Döndürülemiyor.");
+                }
+            }
+            else
+            {
+                while (i < ship.length && panels[ship.x, ship.y + i].BackColor != Color.DarkGray)
+                {
+                    i++;
+                }
+                if(i == ship.length)
+                {
+                    Ships.eraseShip(ship, panels);
+                    ship.turned = true;
+                    Ships.createShip(ship, ship.x, ship.y, panels);
+                }
 
-            ship.Width = height;
-            ship.Height = width;
+            }
+        }
+
+        private void ready_Click(object sender, EventArgs e, Panel[,] panel)
+        {
+            int[,] arr = new int[10, 10];
+            int i, j;
+
+            for(i = 0; i < 10; i++)
+            {
+                for(j = 0; j < 10; j++)
+                {
+                    if(panel[i, j].BackColor == Color.DarkGray)
+                    {
+                        arr[i, j] = 1;
+                    }
+                }
+            }
         }
     }
 }
